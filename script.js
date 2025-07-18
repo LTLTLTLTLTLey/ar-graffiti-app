@@ -3,14 +3,23 @@ let currentIndex = 0;
 let lastUpdate = Date.now();
 
 // Load dataset
-fetch('graffitiData.json')
-  .then(res => res.json())
-  .then(data => {
-    graffitiData = data;
-    initCamera();
-    initMotionDetection();
-  });
-  .catch(err => console.error("Error loading dataset:", err));
+function evolveGraffiti() {
+  if (currentIndex >= graffitiData.length) return;
+
+  const data = graffitiData[currentIndex++];
+
+  // 🧪 Debug message to confirm it's triggering
+  console.log("Motion triggered: showing graffiti", data.symbol);
+
+  const el = document.createElement('div');
+  el.className = 'graffiti-layer';
+  el.innerText = data.symbol || "🚚";
+  el.style.color = data.color || 'white';
+  el.style.top = `${Math.random() * 80 + 10}%`;
+  el.style.left = `${Math.random() * 80 + 10}%`;
+
+  document.getElementById('overlay').appendChild(el);
+}
 
 // Activate rear camera
 function initCamera() {
