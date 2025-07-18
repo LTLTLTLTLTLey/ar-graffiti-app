@@ -9,7 +9,7 @@ fetch('graffitiData.json')
     graffitiData = data;
     initCamera();
     initMotionDetection();
-  })
+  });
   .catch(err => console.error("Error loading dataset:", err));
 
 // Activate rear camera
