@@ -3,10 +3,10 @@ html, body {
   padding: 0;
   overflow: hidden;
   height: 100%;
-  background: black;
+  background: transparent;
 }
 
-/* Fullscreen camera */
+/* CAMERA VIDEO */
 #camera {
   position: fixed;
   top: 0;
@@ -14,25 +14,29 @@ html, body {
   width: 100%;
   height: 100%;
   object-fit: cover;
- /* z-index: -1;*/
+  z-index: 1; /* behind overlay, but visible */
 }
 
-/* Overlay container */
+/* OVERLAY for graffiti */
 #overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 2; /* ABOVE camera */
+  pointer-events: none; /* lets you touch through if needed */
+  background: transparent;
 }
 
-/* Graffiti text style */
+/* GRAFFITI STYLE */
 .graffiti-layer {
   position: absolute;
   font-size: 2rem;
   font-weight: bold;
   font-family: 'Arial Black', sans-serif;
   text-shadow: 2px 2px 8px black;
+  color: white;
   animation: fadein 1s ease-out;
 }
 
