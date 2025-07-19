@@ -1,63 +1,67 @@
-let graffitiData = [];
-let currentIndex = 0;
+const imageFolder = 'images/';
+const images = ['graffiti1.png', 'graffiti2.png', 'graffiti3.png']; // Add all your image names here
+let currentImage = null;
 let lastUpdate = Date.now();
+let scrollX = 0;
+let scrollInterval = null;
 
-// Load your JSON dataset
-fetch('graffitiData.json')
-  .then(res => res.json())
-  .then(data => {
-    graffitiData = data;
-    initCamera();
-    initMotionDetection();
+// Start camera
+const video = document.getElementById('camera');
+navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+  .then(stream => {
+    video.srcObject = stream;
+    video.play();
   })
   .catch(err => {
-    console.error("Failed to load dataset:", err);
+    console.error("Camera access error:", err);
   });
 
-// Initialize rear camera
-function initCamera() {
-  const video = document.getElementById('camera');
-  navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
-    .then(stream => {
-      video.srcObject = stream;
-      video.play(); // Ensure playback starts
-    })
-    .catch(err => {
-      console.error("Camera access denied:", err);
-    });
-}
-
-// Enable motion detection
-function initMotionDetection() {
-  window.addEventListener('devicemotion', handleMotion);
-}
-
-// Detect physical movement
-function handleMotion(event) {
+// Detect motion
+window.addEventListener('devicemotion', (event) => {
   const now = Date.now();
   const accel = event.accelerationIncludingGravity;
 
-  if ((accel.x > 3 || accel.y > 3 || accel.z > 3) && now - lastUpdate > 1000) {
+  if ((accel.x > 2 || accel.y > 2 || accel.z > 2) && now - lastUpdate > 1000) {
     lastUpdate = now;
-    evolveGraffiti();
+    showNewGraffiti();
+  }
+});
+
+// Show random graffiti image
+function showNewGraffiti() {
+  clearOverlay();
+
+  const img = document.createElement('img');
+  img.className = 'graffiti-image';
+  const random = Math.floor(Math.random() * images.length);
+  img.src = `${imageFolder}${images[random]}`;
+  img.onload = () => {
+    scrollX = 0;
+    scrollInterval = setInterval(() => scrollGraffiti(img), 50);
+  };
+
+  document.getElementById('overlay').appendChild(img);
+  currentImage = img;
+
+  // Reset after 10 seconds
+  setTimeout(() => {
+    clearOverlay();
+  }, 10000);
+}
+
+// Scroll image horizontally
+function scrollGraffiti(img) {
+  scrollX -= 2; // scroll speed
+  img.style.transform = `translate(${scrollX}px, -50%)`;
+
+  if (Math.abs(scrollX) > img.width - window.innerWidth) {
+    scrollX = 0; // Loop scroll
   }
 }
 
-// Display one graffiti symbol from the dataset
-function evolveGraffiti() {
-  if (currentIndex >= graffitiData.length) return;
-
-  const data = graffitiData[currentIndex++];
-
-  // 🧪 Debug line — shows in browser console
-  console.log("Motion triggered: showing graffiti", data.symbol);
-
-  const el = document.createElement('div');
-  el.className = 'graffiti-layer';
-  el.innerText = data.symbol || "🚚";
-  el.style.color = data.color || 'white';
-  el.style.top = `${Math.random() * 80 + 10}%`;
-  el.style.left = `${Math.random() * 80 + 10}%`;
-
-  document.getElementById('overlay').appendChild(el);
+function clearOverlay() {
+  clearInterval(scrollInterval);
+  const overlay = document.getElementById('overlay');
+  overlay.innerHTML = '';
+  currentImage = null;
 }
