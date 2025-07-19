@@ -1,5 +1,7 @@
-const imageFolder = 'images/';
-const images = ['graffiti1.png', 'graffiti2.png', 'graffiti3.png']; // Add all your image names here
+const images = ['graffiti1.png', 'graffiti2.png', 'graffiti3.png'];
+const random = Math.floor(Math.random() * images.length);
+img.src = `images/${images[random]}`;
+
 let currentImage = null;
 let lastUpdate = Date.now();
 let scrollX = 0;
