@@ -7,6 +7,33 @@ let scrollX = 0;
 let scrollInterval = null;
 let lastUpdate = Date.now();
 
+// Call this on first touch
+function requestMotionPermission() {
+  if (typeof DeviceMotionEvent !== "undefined" && typeof DeviceMotionEvent.requestPermission === "function") {
+    DeviceMotionEvent.requestPermission()
+      .then(permissionState => {
+        if (permissionState === "granted") {
+          console.log("✅ Motion permission granted");
+          window.addEventListener("devicemotion", handleMotion);
+        } else {
+          alert("Please enable motion access in your browser settings.");
+        }
+      })
+      .catch(err => {
+        console.error("Motion permission error:", err);
+      });
+  } else {
+    // Older iOS versions or Android
+    console.log("📱 No motion permission API — attaching motion listener directly.");
+    window.addEventListener("devicemotion", handleMotion);
+  }
+}
+
+// Call this on first touch
+window.addEventListener("touchstart", () => {
+  requestMotionPermission();
+}, { once: true });
+ 
 // Activate camera
 const video = document.getElementById('camera');
 navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
