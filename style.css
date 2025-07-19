@@ -36,6 +36,5 @@ html, body {
   height: 60%;
   z-index: 3;
   pointer-events: none;
-  opacity: 1;
-  border: 3px solid red; /* 🔧 Temporary border to see it clearly */
 }
+
