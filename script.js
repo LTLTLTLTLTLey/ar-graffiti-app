@@ -17,14 +17,8 @@ navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
   });
 
 // Detect motion
-window.addEventListener('devicemotion', (event) => {
-  const now = Date.now();
-  const accel = event.accelerationIncludingGravity;
-
-  if ((accel.x > 2 || accel.y > 2 || accel.z > 2) && now - lastUpdate > 1000) {
-    lastUpdate = now;
-    showNewGraffiti();
-  }
+window.addEventListener('click', () => {
+  showNewGraffiti();
 });
 
 // Show random graffiti image
