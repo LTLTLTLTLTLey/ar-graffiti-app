@@ -106,3 +106,35 @@ function clearOverlay() {
   overlay.innerHTML = '';
   currentImage = null;
 }
+function requestMotionAccess() {
+  if (
+    typeof DeviceMotionEvent !== 'undefined' &&
+    typeof DeviceMotionEvent.requestPermission === 'function'
+  ) {
+    DeviceMotionEvent.requestPermission()
+      .then(response => {
+        console.log("Motion permission response:", response);
+        if (response === 'granted') {
+          alert("✅ Motion access granted!");
+          window.addEventListener("devicemotion", handleMotion);
+        } else {
+          alert("❌ Motion access denied. Go to Settings > Safari > Clear Data.");
+        }
+      })
+      .catch(err => {
+        console.error("Motion access error:", err);
+        alert("❌ Error requesting motion access.");
+      });
+  } else {
+    console.log("No requestPermission function. Attaching directly.");
+    window.addEventListener("devicemotion", handleMotion);
+  }
+}
+
+window.addEventListener("touchstart", () => {
+  requestMotionAccess();
+}, { once: true });
+
+function handleMotion(event) {
+  console.log("📱 Motion detected!", event.acceleration);
+}
