@@ -17,8 +17,13 @@ navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
   });
 
 // Detect motion
-window.addEventListener('click', () => {
-  showNewGraffiti();
+window.addEventListener('load', () => {
+  const img = document.createElement('img');
+  img.src = 'images/graffiti1.png'; // change to a valid image you tested
+  img.className = 'graffiti-image';
+
+  document.getElementById('overlay').appendChild(img);
+  console.log('Image appended:', img.src);
 });
 
 // Show random graffiti image
