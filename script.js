@@ -17,48 +17,13 @@ navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
     console.error("❌ Camera error:", err);
   });
 
-// Request motion access (iOS-specific)
-function requestMotionAccess() {
-  if (
-    typeof DeviceMotionEvent !== 'undefined' &&
-    typeof DeviceMotionEvent.requestPermission === 'function'
-  ) {
-    DeviceMotionEvent.requestPermission()
-      .then(response => {
-        console.log("Motion permission response:", response);
-        if (response === 'granted') {
-          alert("✅ Motion access granted!");
-          window.addEventListener("devicemotion", handleMotion);
-        } else {
-          alert("❌ Motion access denied.");
-        }
-      })
-      .catch(err => {
-        console.error("Motion access error:", err);
-        alert("❌ Error requesting motion access.");
-      });
-  } else {
-    console.log("No requestPermission needed. Attaching listener.");
-    window.addEventListener("devicemotion", handleMotion);
-  }
-}
+const enterButton = document.getElementById("enterButton");
 
-// Trigger permission request on first user touch
-window.addEventListener("touchstart", requestMotionAccess, { once: true });
-
-// Tap also triggers graffiti
-window.addEventListener("click", () => {
+enterButton.addEventListener("click", () => {
+  enterButton.style.display = "none";
   showRandomGraffiti();
+  window.addEventListener("click", showRandomGraffiti);
 });
-
-// Handle motion to trigger graffiti
-function handleMotion(event) {
-  const accel = event.accelerationIncludingGravity;
-  if (accel && Math.abs(accel.x) > 2) {
-    console.log("📱 Motion triggered");
-    showRandomGraffiti();
-  }
-}
 
 // Show random graffiti image and start scrolling
 function showRandomGraffiti() {
