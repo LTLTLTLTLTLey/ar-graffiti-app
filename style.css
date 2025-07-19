@@ -6,7 +6,6 @@ html, body {
   background: transparent;
 }
 
-/* CAMERA VIDEO */
 #camera {
   position: fixed;
   top: 0;
@@ -14,34 +13,26 @@ html, body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: 1; /* behind overlay, but visible */
+  z-index: 1;
 }
 
-/* OVERLAY for graffiti */
 #overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  opacity: 10%;
-  z-index: 2; /* ABOVE camera */
-  pointer-events: none; /* lets you touch through if needed */
-  background: transparent;
+  z-index: 2;
+  overflow: hidden;
 }
 
-/* GRAFFITI STYLE */
-.graffiti-layer {
+/* Graffiti image style */
+.graffiti-image {
   position: absolute;
-  font-size: 2rem;
-  font-weight: bold;
-  font-family: 'Arial Black', sans-serif;
-  text-shadow: 2px 2px 8px black;
-  color: white;
-  animation: fadein 1s ease-out;
-}
-
-@keyframes fadein {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  top: 50%;
+  left: 0;
+  height: 60%;
+  transform: translateY(-50%);
+  will-change: transform;
+  transition: transform 0.2s linear;
 }
