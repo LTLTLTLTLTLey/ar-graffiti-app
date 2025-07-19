@@ -1,4 +1,4 @@
-const images = ['graffiti.png']; // Only one image for now
+const images = ['graffiti1.png']; // Only one image for now
 const imageFolder = 'images/';
 let currentImage = null;
 let scrollX = 0;
