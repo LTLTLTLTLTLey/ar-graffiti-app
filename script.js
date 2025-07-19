@@ -18,35 +18,33 @@ navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
     console.error("❌ Camera error:", err);
   });
 
-// Request motion access on iOS
-function requestMotionPermission() {
-  if (
-    typeof DeviceMotionEvent !== 'undefined' &&
-    typeof DeviceMotionEvent.requestPermission === 'function'
-  ) {
+function requestMotionAccess() {
+  if (typeof DeviceMotionEvent !== "undefined" &&
+      typeof DeviceMotionEvent.requestPermission === "function") {
+    // iOS only
     DeviceMotionEvent.requestPermission()
       .then(response => {
-        if (response === 'granted') {
-          console.log('✅ Motion permission granted');
-          window.addEventListener('devicemotion', handleMotion);
+        if (response === "granted") {
+          console.log("✅ Motion access granted (iOS)");
+          window.addEventListener("devicemotion", handleMotion);
         } else {
-          alert('Motion access denied. Please enable it in Safari settings.');
+          alert("Motion access denied.");
         }
       })
       .catch(err => {
-        console.error('❌ Motion permission error:', err);
+        console.error("Motion access error:", err);
+        alert("Error requesting motion access.");
       });
   } else {
-    // Non-iOS or older iOS
-    console.log("📱 No motion permission needed");
-    window.addEventListener('devicemotion', handleMotion);
+    // Android / Desktop — skip permission
+    console.log("📱 No motion permission needed — attaching listener");
+    window.addEventListener("devicemotion", handleMotion);
   }
 }
 
+
 // Trigger permission request on first touch
-window.addEventListener('touchstart', () => {
-  requestMotionPermission();
-}, { once: true });
+window.addEventListener("click", requestMotionAccess, { once: true });
 
 // Also allow tap to trigger graffiti
 window.addEventListener('click', () => {
