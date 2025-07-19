@@ -1,103 +1,105 @@
-// List of image filenames
-const images = ['graffiti1.png', 'graffiti2.png', 'graffiti3.png']; // update as needed
+const images = ['graffiti.png']; // Only one image for now
 const imageFolder = 'images/';
-
 let currentImage = null;
 let scrollX = 0;
 let scrollInterval = null;
 let lastUpdate = Date.now();
 
-// Call this on first touch
-function requestMotionPermission() {
-  if (typeof DeviceMotionEvent !== "undefined" && typeof DeviceMotionEvent.requestPermission === "function") {
-    DeviceMotionEvent.requestPermission()
-      .then(permissionState => {
-        if (permissionState === "granted") {
-          console.log("✅ Motion permission granted");
-          window.addEventListener("devicemotion", handleMotion);
-        } else {
-          alert("Please enable motion access in your browser settings.");
-        }
-      })
-      .catch(err => {
-        console.error("Motion permission error:", err);
-      });
-  } else {
-    // Older iOS versions or Android
-    console.log("📱 No motion permission API — attaching motion listener directly.");
-    window.addEventListener("devicemotion", handleMotion);
-  }
-}
-
-// Call this on first touch
-window.addEventListener("touchstart", () => {
-  requestMotionPermission();
-}, { once: true });
- 
-// Activate camera
+// Setup camera
 const video = document.getElementById('camera');
+
 navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
   .then(stream => {
     video.srcObject = stream;
     video.play();
-    console.log("Camera stream started");
+    console.log("✅ Camera started");
   })
   .catch(err => {
-    console.error("Camera access error:", err);
+    console.error("❌ Camera error:", err);
   });
 
-// Listen for motion
-window.addEventListener('devicemotion', (event) => {
+// Request motion access on iOS
+function requestMotionPermission() {
+  if (
+    typeof DeviceMotionEvent !== 'undefined' &&
+    typeof DeviceMotionEvent.requestPermission === 'function'
+  ) {
+    DeviceMotionEvent.requestPermission()
+      .then(response => {
+        if (response === 'granted') {
+          console.log('✅ Motion permission granted');
+          window.addEventListener('devicemotion', handleMotion);
+        } else {
+          alert('Motion access denied. Please enable it in Safari settings.');
+        }
+      })
+      .catch(err => {
+        console.error('❌ Motion permission error:', err);
+      });
+  } else {
+    // Non-iOS or older iOS
+    console.log("📱 No motion permission needed");
+    window.addEventListener('devicemotion', handleMotion);
+  }
+}
+
+// Trigger permission request on first touch
+window.addEventListener('touchstart', () => {
+  requestMotionPermission();
+}, { once: true });
+
+// Also allow tap to trigger graffiti
+window.addEventListener('click', () => {
+  showGraffiti();
+});
+
+// Motion logic
+function handleMotion(event) {
   const now = Date.now();
   const accel = event.accelerationIncludingGravity;
 
   if ((accel.x > 2 || accel.y > 2 || accel.z > 2) && now - lastUpdate > 1000) {
     lastUpdate = now;
-    showRandomGraffiti();
+    showGraffiti();
   }
-});
+}
 
-// Also trigger on tap (useful for debugging)
-window.addEventListener('click', () => {
-  showRandomGraffiti();
-});
-
-// Show a random graffiti image and scroll it
-function showRandomGraffiti() {
+// Show graffiti image
+function showGraffiti() {
   clearOverlay();
 
   const img = document.createElement('img');
   img.className = 'graffiti-image';
+  img.src = `${imageFolder}${images[0]}`;
 
-  const randomIndex = Math.floor(Math.random() * images.length);
-  img.src = `${imageFolder}${images[randomIndex]}`;
+  console.log("🖼️ Loading image:", img.src);
 
   img.onload = () => {
     scrollX = 0;
-    scrollInterval = setInterval(() => scrollGraffiti(img), 30);
+    scrollInterval = setInterval(() => scrollImage(img), 30);
   };
 
   document.getElementById('overlay').appendChild(img);
   currentImage = img;
 
-  // Clear image after 10 seconds
+  // Clear after 10 seconds
   setTimeout(() => {
     clearOverlay();
   }, 10000);
 }
 
-// Scroll image horizontally
-function scrollGraffiti(img) {
-  scrollX -= 2; // scroll speed
+// Scroll the image to the left
+function scrollImage(img) {
+  scrollX -= 2;
   img.style.transform = `translate(${scrollX}px, -50%)`;
 
   const maxScroll = img.width - window.innerWidth;
   if (Math.abs(scrollX) >= maxScroll) {
-    scrollX = 0; // loop back to start
+    scrollX = 0;
   }
 }
 
-// Remove current image and stop scrolling
+// Remove the image
 function clearOverlay() {
   clearInterval(scrollInterval);
   const overlay = document.getElementById('overlay');
