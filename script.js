@@ -43,9 +43,9 @@ function showRandomGraffiti() {
   currentImage = img;
 
   // Auto-clear after 10 seconds
-  setTimeout(() => {
-    clearOverlay();
-  }, 10000);
+ // setTimeout(() => {
+ //   clearOverlay();
+ // }, 10000);
 }
 
 // Scroll image horizontally
