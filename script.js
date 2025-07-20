@@ -1,15 +1,4 @@
-const images = ['graffiti1.png', 'graffiti2.png', 'graffiti3.png']; // make sure these exist
-const imageFolder = 'images/';
-let currentImage = null;
-let scrollX = 0;
-let scrollInterval = null;
-
-// Setup camera
-const video = document.getElementById('camera');
-
-navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
-  .then(stream => {
-    video.srcObject = stream;
+video.srcObject = stream;
     video.play();
     console.log("✅ Camera started");
   })
@@ -35,7 +24,8 @@ function showRandomGraffiti() {
   img.className = "graffiti-image";
 
   img.onload = () => {
-    scrollX = 0;
+    // Start at the rightmost edge so the image scrolls from right to left
+    scrollX = window.innerWidth - img.width;
     scrollInterval = setInterval(() => scrollImage(img), 30);
   };
 
@@ -49,15 +39,15 @@ function showRandomGraffiti() {
 }
 
 // Scroll image horizontally
-function scrollImage(img) {
-  scrollX -= 2;
-  img.style.transform = `translate(${scrollX}px, -50%)`;
-
-  const maxScroll = img.width - window.innerWidth;
-  if (Math.abs(scrollX) >= maxScroll) {
-    scrollX = 0;
-  }
-}
+function scrollImage(img) {␊
+  scrollX += 2;
+  img.style.transform = `translate(${scrollX}px, -50%)`;␊
+␊
+  const maxScroll = img.width - window.innerWidth;␊
+  if (scrollX >= 0) {
+    scrollX = -maxScroll;
+  }␊
+}␊
 
 // Clear graffiti overlay
 function clearOverlay() {
