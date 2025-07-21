@@ -5,6 +5,8 @@ let scrollX = 0;
 let scrollInterval = null;
 let isPaused = false;
 
+const bgMusic = document.getElementById('bgMusic');
+
 // Setup camera
 const video = document.getElementById('camera');
 
@@ -22,6 +24,9 @@ const enterButton = document.getElementById('enterButton');
 
 enterButton.addEventListener('click', () => {
   enterButton.style.display = 'none';
+  if (bgMusic) {
+    bgMusic.play();
+  }
   showRandomGraffiti();
   window.addEventListener('click', showRandomGraffiti);
 });
