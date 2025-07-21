@@ -22,6 +22,7 @@ const enterButton = document.getElementById('enterButton');
 enterButton.addEventListener('click', () => {
   enterButton.style.display = 'none';
   showRandomGraffiti();
+  window.addEventListener('click', showRandomGraffiti);
 });
 
 // Show random graffiti image and start scrolling
@@ -44,9 +45,9 @@ function showRandomGraffiti() {
   currentImage = img;
 
   // Auto-clear after 10 seconds
-  // setTimeout(() => {
-  //   clearOverlay();
-  // }, 10000);
+  setTimeout(() => {
+    clearOverlay();
+  }, 10000);
 }
 
 // Scroll image horizontally from left to right
@@ -56,8 +57,6 @@ function scrollImage(img) {
 
   if (scrollX >= window.innerWidth) {
     scrollX = -img.width;
-    const randomIndex = Math.floor(Math.random() * images.length);
-    img.src = `${imageFolder}${images[randomIndex]}`;
   }
 }
 
