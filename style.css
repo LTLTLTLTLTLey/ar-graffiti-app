@@ -39,6 +39,16 @@ html, body {
   pointer-events: auto;
 }
 
+#enterGif {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 150px;
+  z-index: 3;
+  pointer-events: none;
+}
+
 .graffiti-image {
   position: absolute;
   top: 50%;
