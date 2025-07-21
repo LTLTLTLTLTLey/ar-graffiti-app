@@ -35,20 +35,16 @@ function showRandomGraffiti() {
   img.className = 'graffiti-image';
 
   img.onload = () => {
-    // Start at the left edge so the image enters immediately
-    scrollX = 0;
+    document.body.appendChild(img);
+
+    // Start at the right edge (off-screen)
+    scrollX = window.innerWidth;
     img.style.transform = `translate(${scrollX}px, -50%)`;
+
     scrollInterval = setInterval(() => scrollImage(img), 30);
   };
-
-  document.getElementById('overlay').appendChild(img);
-  currentImage = img;
-
-  // Auto-clear after 10 seconds
-  setTimeout(() => {
-    clearOverlay();
-  }, 10000);
 }
+
 
 // Scroll image horizontally from left to right
 function scrollImage(img) {
