@@ -8,7 +8,7 @@ let isPaused = false;
 const bgMusic = document.getElementById('bgMusic');
 if (bgMusic) {
   bgMusic.loop = true;
-  bgMusic.volume = 0.3; // lower volume slightly
+  bgMusic.volume = 0.2; // lower volume slightly
 }
 
 // Setup camera
