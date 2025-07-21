@@ -34,8 +34,8 @@ function showRandomGraffiti() {
   img.className = 'graffiti-image';
 
   img.onload = () => {
-    // Start off-screen on the right so the image scrolls from right to left
-    scrollX = window.innerWidth;
+    // Start off-screen on the left so the image scrolls from left to right
+    scrollX = -img.width;
     img.style.transform = `translate(${scrollX}px, -50%)`;
     scrollInterval = setInterval(() => scrollImage(img), 30);
   };
@@ -49,13 +49,13 @@ function showRandomGraffiti() {
   // }, 10000);
 }
 
-// Scroll image horizontally from right to left
+// Scroll image horizontally from left to right
 function scrollImage(img) {
-  scrollX -= 2;
+  scrollX += 2;
   img.style.transform = `translate(${scrollX}px, -50%)`;
 
-  if (scrollX <= -img.width) {
-    scrollX = window.innerWidth;
+  if (scrollX >= window.innerWidth) {
+    scrollX = -img.width;
     const randomIndex = Math.floor(Math.random() * images.length);
     img.src = `${imageFolder}${images[randomIndex]}`;
   }
