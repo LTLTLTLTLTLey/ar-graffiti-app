@@ -33,7 +33,7 @@ html, body {
   top: 60%;
   left: 100%;
   transform: translate(-50%, -50%);
-  width: 200px;
+  width: 400px;
   height: auto;
   z-index: 4;
   pointer-events: auto;
