@@ -22,7 +22,6 @@ const enterButton = document.getElementById('enterButton');
 enterButton.addEventListener('click', () => {
   enterButton.style.display = 'none';
   showRandomGraffiti();
-  window.addEventListener('click', showRandomGraffiti);
 });
 
 // Show random graffiti image and start scrolling
@@ -57,6 +56,8 @@ function scrollImage(img) {
 
   if (scrollX <= -img.width) {
     scrollX = window.innerWidth;
+    const randomIndex = Math.floor(Math.random() * images.length);
+    img.src = `${imageFolder}${images[randomIndex]}`;
   }
 }
 
