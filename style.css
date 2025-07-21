@@ -35,7 +35,7 @@ html, body {
 #enterButton {
   width: 460px;
   height: auto;
-  margin-top: 20px;
+  margin-top: 50px;
   z-index: 4;
   pointer-events: auto;
   cursor: pointer;
@@ -45,7 +45,7 @@ html, body {
 }
 
 #enterGif {
-  width: 440px;
+  width: 400px;
   z-index: 3;
   pointer-events: none;
 }
@@ -54,8 +54,8 @@ html, body {
   position: absolute;
   top: 0;
   left: 0;
-  width: 200%;
-  height: 200%;
+  width: 100%;
+  height: 100%;
   z-index: 2;
   pointer-events: none;
 }
