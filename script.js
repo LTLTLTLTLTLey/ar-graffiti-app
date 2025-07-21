@@ -25,7 +25,6 @@ enterButton.addEventListener('click', () => {
   window.addEventListener('click', showRandomGraffiti);
 });
 
-// Show random graffiti image and start scrolling
 function showRandomGraffiti() {
   clearOverlay();
 
@@ -37,24 +36,25 @@ function showRandomGraffiti() {
   img.onload = () => {
     document.body.appendChild(img);
 
-    // Start at the right edge (off-screen)
-    scrollX = window.innerWidth;
+    // Start just outside the left edge of the screen
+    scrollX = -img.width;  // right edge of image is just off-screen left
     img.style.transform = `translate(${scrollX}px, -50%)`;
 
     scrollInterval = setInterval(() => scrollImage(img), 30);
   };
 }
 
-
-// Scroll image horizontally from left to right
 function scrollImage(img) {
-  scrollX += 2;
+  scrollX += 2; // move right
   img.style.transform = `translate(${scrollX}px, -50%)`;
 
-  if (scrollX >= window.innerWidth) {
-    scrollX = -img.width;
+  // Stop scrolling when the image fully exits on the right
+  if (scrollX > window.innerWidth) {
+    clearInterval(scrollInterval);
+    img.remove();
   }
 }
+
 
 // Clear graffiti overlay
 function clearOverlay() {
