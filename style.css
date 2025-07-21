@@ -46,7 +46,7 @@ html, body {
 
 #enterGif {
   width: 400px;
-  margin-top: 40px !important;
+  top: 30%;
   z-index: 3;
   pointer-events: none;
 }
