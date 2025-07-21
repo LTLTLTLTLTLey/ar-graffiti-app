@@ -1,4 +1,4 @@
-const images = ['graffiti1.png', 'graffiti2.png'];
+const images = ['graffiti1.png', 'graffiti2.png', 'graffiti3.png', 'video1.mp4'];
 const imageFolder = 'images/';
 let currentImage = null;
 let scrollX = 0;
