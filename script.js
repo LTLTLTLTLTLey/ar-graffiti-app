@@ -35,8 +35,8 @@ function showRandomGraffiti() {
   img.className = 'graffiti-image';
 
   img.onload = () => {
-    // Start off-screen on the left so the image scrolls from left to right
-    scrollX = -img.width;
+    // Start at the left edge so the image enters immediately
+    scrollX = 0;
     img.style.transform = `translate(${scrollX}px, -50%)`;
     scrollInterval = setInterval(() => scrollImage(img), 30);
   };
