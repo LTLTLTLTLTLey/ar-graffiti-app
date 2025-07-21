@@ -55,12 +55,12 @@ function showRandomGraffiti() {
     scrollX = -img.width;  // right edge of image is just off-screen left
     img.style.transform = `translate(${scrollX}px, -50%)`;
 
-    scrollInterval = setInterval(() => scrollImage(img), 30);
+    scrollInterval = setInterval(() => scrollImage(img), 50);
   };
 }
 
 function scrollImage(img) {
-  scrollX += 2; // move right
+  scrollX += 1; // move right slower
   img.style.transform = `translate(${scrollX}px, -50%)`;
 
   // Stop scrolling when the image fully exits on the right
@@ -79,7 +79,7 @@ function pauseScrolling() {
 
 function resumeScrolling() {
   if (isPaused && currentImage) {
-    scrollInterval = setInterval(() => scrollImage(currentImage), 30);
+    scrollInterval = setInterval(() => scrollImage(currentImage), 50);
     isPaused = false;
   }
 }

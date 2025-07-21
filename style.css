@@ -33,9 +33,12 @@ html, body {
 }
 
 #enterButton {
+  position: absolute;
+  left: 50%;
+  top: 70%;
+  transform: translate(-50%, -50%);
   width: 460px;
   height: auto;
-  top: 70%;
   z-index: 4;
   pointer-events: auto;
   cursor: pointer;
