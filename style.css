@@ -45,8 +45,11 @@ html, body {
 }
 
 #enterGif {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   width: 400px;
-  top: 50% !important;
   z-index: 3;
   pointer-events: none;
 }
